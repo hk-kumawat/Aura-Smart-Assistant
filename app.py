@@ -1,11 +1,10 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from langchain.chains import RunnableSequence  # Import the new chain
 
 # Load API keys from .env file
 load_dotenv()
@@ -39,10 +38,12 @@ def main():
         template="You are a helpful assistant. Respond to the following question: {input}"
     )
 
-    # Initialize LLMChain with the prompt and Groq model
-    llm_chain = LLMChain(
-        llm=groq_chat,
-        prompt=prompt_template
+    # Create a RunnableSequence instead of LLMChain
+    runnable = RunnableSequence(
+        steps=[
+            prompt_template,
+            groq_chat
+        ]
     )
 
     # Input form with "Send" button
@@ -70,8 +71,8 @@ def main():
             st.session_state.user_name = user_name
             response_text = f"Nice to meet you, {user_name}!"
         else:
-            # Generate response using LLMChain
-            response = llm_chain.run(input=user_question)
+            # Generate response using RunnableSequence
+            response = runnable.invoke({"input": user_question})
             response_text = response
 
             # Customize response based on sentiment
