@@ -3,12 +3,11 @@ import os
 from dotenv import load_dotenv
 from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
-from langchain.llms import OpenAI  # Using OpenAI as the LLM (change if needed)
+from langchain_groq import ChatGroq  # Using ChatGroq or replace with other model
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load API keys from .env file
 load_dotenv()
-openai_api_key = os.environ['OPENAI_API_KEY']  # Use your OpenAI API key
 
 # Function to analyze sentiment (Emotion Recognition)
 def analyze_sentiment(text):
@@ -26,8 +25,8 @@ def main():
     if 'user_name' not in st.session_state:
         st.session_state.user_name = None  # Initialize to None if not set
 
-    # Initialize OpenAI language model (you can replace with other compatible models)
-    llm = OpenAI(api_key=openai_api_key)
+    # Initialize ChatGroq language model (you can replace it with other compatible models)
+    llm = ChatGroq()  # Ensure you initialize it properly based on the library's doc
 
     # Define the prompt template for the LLM chain
     prompt_template = PromptTemplate(
