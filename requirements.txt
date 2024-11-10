@@ -3,3 +3,4 @@ langchain==0.0.230
 langchain-groq==0.1.0
 python-dotenv==1.0.0
 vaderSentiment==3.3.2
+altair==4.2.2
