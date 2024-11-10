@@ -1,14 +1,14 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain  # Import ConversationChain
+from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
-from langchain_groq import ChatGroq
+from langchain.llms import OpenAI  # Using OpenAI as the LLM (change if needed)
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load API keys from .env file
 load_dotenv()
-groq_api_key = os.environ['GROQ_API_KEY']
+openai_api_key = os.environ['OPENAI_API_KEY']  # Use your OpenAI API key
 
 # Function to analyze sentiment (Emotion Recognition)
 def analyze_sentiment(text):
@@ -26,21 +26,18 @@ def main():
     if 'user_name' not in st.session_state:
         st.session_state.user_name = None  # Initialize to None if not set
 
-    # Initialize Groq Langchain chat object
-    groq_chat = ChatGroq(
-        groq_api_key=groq_api_key,
-        model_name="mixtral-8x7b-32768"
-    )
+    # Initialize OpenAI language model (you can replace with other compatible models)
+    llm = OpenAI(api_key=openai_api_key)
 
     # Define the prompt template for the LLM chain
     prompt_template = PromptTemplate(
-        input_variables=["input"],
-        template="You are a helpful assistant. Respond to the following question: {input}"
+        input_variables=["input", "history"],  # Adding history here as part of the input
+        template="You are a helpful assistant. Respond to the following question in context of previous conversation history: {history} {input}"
     )
 
-    # Initialize ConversationChain with the prompt and Groq model
+    # Initialize ConversationChain with the LLM and prompt
     conversation_chain = ConversationChain(
-        llm=groq_chat,
+        llm=llm,
         prompt=prompt_template
     )
 
@@ -70,7 +67,7 @@ def main():
             response_text = f"Nice to meet you, {user_name}!"
         else:
             # Generate response using ConversationChain
-            response = conversation_chain.run(input=user_question)
+            response = conversation_chain.run(input=user_question, history=st.session_state.chat_history)
             response_text = response
 
             # Customize response based on sentiment
