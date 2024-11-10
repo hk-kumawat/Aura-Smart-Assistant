@@ -2,7 +2,8 @@ import streamlit as st
 import os
 from dotenv import load_dotenv
 from langchain.chains import ConversationChain
-from langchain.chains.conversation.memory import ConversationBufferMemory
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -20,11 +21,7 @@ def main():
     st.title("Talk to Aura: The Smart Assistant That Understands You! 🤖💬")
     st.markdown("*Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!*")
 
-
     # Initialize memory to remember full conversation history
-    memory = ConversationBufferMemory()
-
-    # Session state to hold chat history and user's name
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
     if 'user_name' not in st.session_state:
@@ -36,10 +33,16 @@ def main():
         model_name="mixtral-8x7b-32768"
     )
 
-    # Initialize conversation chain with full memory
-    conversation = ConversationChain(
+    # Define the prompt template for the LLM chain
+    prompt_template = PromptTemplate(
+        input_variables=["input"],
+        template="You are a helpful assistant. Respond to the following question: {input}"
+    )
+
+    # Initialize LLMChain with the prompt and Groq model
+    llm_chain = LLMChain(
         llm=groq_chat,
-        memory=memory
+        prompt=prompt_template
     )
 
     # Input form with "Send" button
@@ -67,9 +70,9 @@ def main():
             st.session_state.user_name = user_name
             response_text = f"Nice to meet you, {user_name}!"
         else:
-            # Generate response using AI model based on sentiment
-            response = conversation(user_question)
-            response_text = response['response']
+            # Generate response using LLMChain
+            response = llm_chain.run(input=user_question)
+            response_text = response
 
             # Customize response based on sentiment
             if sentiment_label == "positive":
@@ -157,8 +160,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
 
 # Footer section
 st.markdown("---")  
