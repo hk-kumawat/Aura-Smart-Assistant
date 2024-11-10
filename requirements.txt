@@ -1,5 +1,5 @@
-streamlit
-langchain
-langchain-groq
-python-dotenv
-vaderSentiment
+streamlit==1.17.0
+langchain==0.0.230
+langchain-groq==0.1.0
+python-dotenv==1.0.0
+vaderSentiment==3.3.2
