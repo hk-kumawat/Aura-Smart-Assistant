@@ -18,8 +18,29 @@ def analyze_sentiment(text):
     return sentiment_score
 
 def main():
-    st.title("Talk to Aura: The Smart Assistant That Understands You! 🤖💬")
-    st.markdown("*Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!*")
+    # Stylish header with animation for the title
+    st.markdown(
+        """
+        <h1 style='text-align: center; font-size: 40px; color: #333; 
+        margin-bottom: 0px; animation: fadeIn 2s ease-in-out;'>
+        Talk to Aura: The Smart Assistant That Understands You! 🤖💬
+        </h1>
+        <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
+        <em>Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!</em>
+        </p>
+        <style>
+        /* Animation for fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            animation: fadeIn 2s ease-in-out;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
     # Initialize memory to remember full conversation history
     if 'chat_history' not in st.session_state:
@@ -116,7 +137,7 @@ def main():
         st.markdown(
             f"""
             <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; margin-top: 15px;">
-                <strong>User:</strong> {msg["human"]}
+                <strong>You:</strong> {msg["human"]}
             </div>
             """, unsafe_allow_html=True)
 
