@@ -18,7 +18,7 @@ def analyze_sentiment(text):
     return sentiment_score
 
 def main():
-    # Title text with theme detection for color and animation for title
+    # Title text with fade-in animation and theme-based color changes
     st.markdown(
         """
         <h1 id="aura-title" style="text-align: center; font-size: 40px; margin-bottom: 0px; animation: fadeIn 2s ease-in-out;">
@@ -27,6 +27,18 @@ def main():
         <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
             Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!
         </p>
+        <style>
+        /* Fade-in animation definition */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Apply animation to the title */
+        #aura-title {
+            animation: fadeIn 2s ease-in-out;
+        }
+        </style>
         """,
         unsafe_allow_html=True
     )
