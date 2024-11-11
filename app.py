@@ -123,19 +123,28 @@ def main():
     # Add smooth scrolling to the page
     st.markdown('<script>window.scrollTo(0, document.body.scrollHeight);</script>', unsafe_allow_html=True)
 
-    # CSS for chat bubbles with fade-in animation
+    # CSS for chat bubbles with side-specific animations
     st.markdown(
         """
         <style>
-        /* Fade-in animation for chat bubbles */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animation for user message sliding from the right */
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Bubble styling and animation */
-        .bubble {
-            animation: fadeIn 0.5s ease-in-out;
+        /* Animation for Aura’s response sliding from the left */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Apply animations to user and bot bubbles */
+        .bubble.user {
+            animation: slideInRight 0.5s ease-in-out;
+        }
+        .bubble.bot {
+            animation: slideInLeft 0.5s ease-in-out;
         }
 
         /* Adjust colors for the textarea and send button */
