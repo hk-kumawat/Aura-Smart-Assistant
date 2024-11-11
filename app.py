@@ -1,8 +1,9 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain  # Import ConversationChain
+from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -38,8 +39,8 @@ def main():
         template="You are a helpful assistant. Respond to the following question: {input}"
     )
 
-    # Initialize ConversationChain with the prompt and Groq model
-    conversation_chain = ConversationChain(
+    # Initialize LLMChain with the prompt and Groq model
+    llm_chain = LLMChain(
         llm=groq_chat,
         prompt=prompt_template
     )
@@ -69,8 +70,8 @@ def main():
             st.session_state.user_name = user_name
             response_text = f"Nice to meet you, {user_name}!"
         else:
-            # Generate response using ConversationChain
-            response = conversation_chain.run(input=user_question)
+            # Generate response using LLMChain
+            response = llm_chain.run(input=user_question)
             response_text = response
 
             # Customize response based on sentiment
@@ -104,8 +105,8 @@ def main():
     # Display conversation in reverse order (latest message on top)
     for msg in st.session_state.chat_history:
         # Adjust the width of the bubbles based on message length
-        user_width = min(55 + len(msg["human"]) // 10, 80)  # Limit width of user messages
-        bot_width = min(55 + len(msg["AI"]) // 10, 80)  # Limit width of bot messages
+        user_width = min(50 + len(msg["human"]) // 5, 75)  # Limit width of user messages
+        bot_width = min(50 + len(msg["AI"]) // 5, 75)  # Limit width of bot messages
 
         # Chatbot's response aligned left
         st.markdown(
