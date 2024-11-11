@@ -21,17 +21,17 @@ def main():
     # Title text with theme detection for color and animation for title
     st.markdown(
         """
-        <h1 id="aura-title" style="text-align: center; font-size: 28px; margin-top: 0px; animation: slideIn 1s ease;">
+        <h1 id="aura-title" style="text-align: center; font-size: 40px; margin-bottom: 0px; animation: fadeIn 2s ease-in-out;">
             Talk to Aura: The Smart Assistant That Understands You! 🤖💬
         </h1>
         <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
-            <em>Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!</em>
+            Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!
         </p>
         """,
         unsafe_allow_html=True
     )
 
-    # JavaScript to change text color based on theme
+    # JavaScript to change title color based on theme
     st.markdown(
         """
         <script>
