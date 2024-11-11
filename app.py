@@ -18,7 +18,7 @@ def analyze_sentiment(text):
     return sentiment_score
 
 def main():
-    # Title text with theme detection for color
+    # Title text with theme detection for color and animation for title
     st.markdown(
         """
         <h1 id="aura-title" style="text-align: center; font-size: 28px; margin-top: 0px; animation: slideIn 1s ease;">
