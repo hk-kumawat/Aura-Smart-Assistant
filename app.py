@@ -21,7 +21,7 @@ def main():
     # Title text with theme detection for color
     st.markdown(
         """
-        <h1 id="aura-title" style="text-align: center; font-size: 28px; margin-top: 0px;">
+        <h1 id="aura-title" style="text-align: center; font-size: 28px; margin-top: 0px; animation: slideIn 1s ease;">
             Talk to Aura: The Smart Assistant That Understands You! 🤖💬
         </h1>
         <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
@@ -197,14 +197,13 @@ def main():
         </style>
         """, unsafe_allow_html=True)
 
-# Footer
-st.markdown("---")
+# Footer, always fixed at the bottom
 st.markdown(
-    "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
-    "<p>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
-    "</div>",
-    unsafe_allow_html=True
-)
+    """
+    <div style="position: fixed; bottom: 0; width: 100%; text-align: center; padding: 10px; background-color: #f1f1f1;">
+        <p style="color: #7f8c8d; font-size: 16px;">🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
