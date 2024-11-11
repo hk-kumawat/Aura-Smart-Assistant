@@ -209,13 +209,14 @@ def main():
         </style>
         """, unsafe_allow_html=True)
 
-# Footer, always fixed at the bottom
+# Footer section
+st.markdown("---")  
 st.markdown(
-    """
-    <div style="position: fixed; bottom: 0; width: 100%; text-align: center; padding: 10px; background-color: #f1f1f1;">
-        <p style="color: #7f8c8d; font-size: 16px;">🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>
-    </div>
-    """, unsafe_allow_html=True)
+    "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
+    "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
 if __name__ == "__main__":
     main()
