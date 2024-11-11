@@ -18,26 +18,34 @@ def analyze_sentiment(text):
     return sentiment_score
 
 def main():
-    # Stylish header with animation for the title
+    # Title text with theme detection for color
     st.markdown(
         """
-        <h1 style='text-align: center; font-size: 40px; color: #333; 
-        margin-bottom: 0px; animation: fadeIn 2s ease-in-out;'>
-        Talk to Aura: The Smart Assistant That Understands You! 🤖💬
+        <h1 id="aura-title" style="text-align: center; font-size: 28px; margin-top: 0px;">
+            Talk to Aura: The Smart Assistant That Understands You! 🤖💬
         </h1>
         <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
-        <em>Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!</em>
+            <em>Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!</em>
         </p>
-        <style>
-        /* Animation for fade-in effect */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 {
-            animation: fadeIn 2s ease-in-out;
-        }
-        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # JavaScript to change text color based on theme
+    st.markdown(
+        """
+        <script>
+            const auraTitle = document.getElementById("aura-title");
+            function applyTheme() {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    auraTitle.style.color = "white";
+                } else {
+                    auraTitle.style.color = "black";
+                }
+            }
+            applyTheme();
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+        </script>
         """,
         unsafe_allow_html=True
     )
@@ -189,9 +197,6 @@ def main():
         </style>
         """, unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    main()
-
 # Footer
 st.markdown("---")
 st.markdown(
@@ -200,3 +205,6 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
+if __name__ == "__main__":
+    main()
