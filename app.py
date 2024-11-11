@@ -2,9 +2,8 @@ import streamlit as st
 import os
 import time
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain
-from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -26,7 +25,7 @@ def main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
     if 'user_name' not in st.session_state:
-        st.session_state.user_name = None  # Initialize to None if not set
+        st.session_state.user_name = None
 
     # Initialize Groq Langchain chat object
     groq_chat = ChatGroq(
@@ -65,7 +64,6 @@ def main():
         if "name" in user_question.lower() and st.session_state.user_name:
             response_text = f"Your name is {st.session_state.user_name}."
         elif "my name is" in user_question.lower():
-            # Store the user's name if they introduce themselves
             name_start = user_question.lower().find("my name is") + len("my name is")
             user_name = user_question[name_start:].strip()
             st.session_state.user_name = user_name
@@ -88,9 +86,6 @@ def main():
         # Save the conversation in session state
         st.session_state.chat_history.insert(0, {'human': user_question, 'AI': response_text})
 
-    # Hide sidebar and toolbar
-    st.write("<style>div.css-1kyxreq {display: none;} div[data-testid='stToolbar'] {display: none;}</style>", unsafe_allow_html=True)
-
     # Detect Streamlit theme setting (light/dark mode)
     theme = st.get_option("theme.base")
 
@@ -106,47 +101,44 @@ def main():
 
     # Display conversation in reverse order (latest message on top)
     for msg in st.session_state.chat_history:
-        # Adjust the width of the bubbles based on message length
-        user_width = min(50 + len(msg["human"]) // 5, 75)  # Limit width of user messages
-        bot_width = min(50 + len(msg["AI"]) // 5, 75)  # Limit width of bot messages
+        user_width = min(50 + len(msg["human"]) // 5, 75)
+        bot_width = min(50 + len(msg["AI"]) // 5, 75)
 
-        # Chatbot's response aligned left
+        # Chatbot's response aligned left with animation
         st.markdown(
             f"""
-            <div style="padding: 15px; border-radius: 8px; background-color: {bot_bg}; color: {text_color}; width: {bot_width}%; margin-right: auto; text-align: left; margin-top: 15px;">
+            <div class="bubble bot" style="padding: 15px; border-radius: 8px; background-color: {bot_bg}; color: {text_color}; width: {bot_width}%; margin-right: auto; text-align: left; margin-top: 15px;">
                 <strong>Aura:</strong> {msg["AI"]}
             </div>
             """, unsafe_allow_html=True)
 
-        # User's message aligned right
+        # User's message aligned right with animation
         st.markdown(
             f"""
-            <div style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; margin-top: 15px;">
+            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; margin-top: 15px;">
                 <strong>User:</strong> {msg["human"]}
             </div>
             """, unsafe_allow_html=True)
 
-    # Add smooth scrolling to the page for a better experience
+    # Add smooth scrolling to the page
     st.markdown('<script>window.scrollTo(0, document.body.scrollHeight);</script>', unsafe_allow_html=True)
 
-    # Add hover effect for the send button (for better interactivity)
+    # CSS for chat bubbles with fade-in animation
     st.markdown(
         """
         <style>
-        .css-1gw3tw1.edgvbvh3 {
-            transition: background-color 0.3s ease;
+        /* Fade-in animation for chat bubbles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .css-1gw3tw1.edgvbvh3:hover {
-            background-color: #00796b;
-            color: white;
-        }
-        </style>
-        """, unsafe_allow_html=True)
 
-    # CSS for text box (optional for a more modern style)
-    st.markdown(
-        """
-        <style>
+        /* Bubble styling and animation */
+        .bubble {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Adjust colors for the textarea and send button */
         textarea {
             border-radius: 8px;
             border: 2px solid #ccc;
@@ -157,17 +149,24 @@ def main():
         textarea:focus {
             border-color: #00796b;
         }
+        .css-1gw3tw1.edgvbvh3 {
+            transition: background-color 0.3s ease;
+        }
+        .css-1gw3tw1.edgvbvh3:hover {
+            background-color: #00796b;
+            color: white;
+        }
         </style>
         """, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
 
-# Footer section
-st.markdown("---")  
+# Footer
+st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
-    "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
+    "<p>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
     "</div>",
     unsafe_allow_html=True
 )
