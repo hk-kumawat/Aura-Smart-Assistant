@@ -1,15 +1,15 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain
+from langchain.chains import ConversationChain, LLMChain
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from pydantic import ValidationError
 
 # Load API keys from .env file
 load_dotenv()
-groq_api_key = os.environ['GROQ_API_KEY']
+groq_api_key = os.environ.get('GROQ_API_KEY')
 
 # Function to analyze sentiment (Emotion Recognition)
 def analyze_sentiment(text):
@@ -40,10 +40,15 @@ def main():
     )
 
     # Initialize LLMChain with the prompt and Groq model
-    llm_chain = LLMChain(
-        llm=groq_chat,
-        prompt=prompt_template
-    )
+    try:
+        llm_chain = LLMChain(
+            llm=groq_chat,
+            prompt=prompt_template
+        )
+    except ValidationError as e:
+        st.error("Initialization error in LLMChain. Please check the requirements and environment settings.")
+        st.write(f"Details: {e}")
+        return
 
     # Input form with "Send" button
     with st.form(key="chat_form", clear_on_submit=True):
