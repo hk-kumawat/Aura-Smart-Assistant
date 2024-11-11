@@ -1,7 +1,7 @@
 
 # **Aura Smart Assistant 🤖**
 
-![Aura Logo](https://github.com/user-attachments/assets/aura_logo.png)
+![Aura Logo](https://github.com/user-attachments/assets/8c9825be-d9de-4488-a770-24431601b571)
 
 ## Overview
 
