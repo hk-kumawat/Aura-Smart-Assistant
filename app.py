@@ -209,6 +209,9 @@ def main():
         </style>
         """, unsafe_allow_html=True)
 
+if __name__ == "__main__":
+    main()
+    
 # Footer section
 st.markdown("---")  
 st.markdown(
@@ -218,5 +221,4 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-if __name__ == "__main__":
-    main()
+
