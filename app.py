@@ -26,14 +26,15 @@ if 'chat_history' not in st.session_state:
 if 'all_questions' not in st.session_state:
     st.session_state.all_questions = []  # Track all user questions here
 
+
 # Define main function
 def main():
     with st.expander("**📢 Important Note for Mobile Users**"):
      st.write(
-        """
+        """    
         **💻 Laptop & Desktop Users**: This app works seamlessly on laptops and desktops, providing a smooth experience.  
         **📱 Mobile Users**: You may need to **tap the 'Send' button twice** to receive a response on mobile devices.  
-        **🙏 Thank you for your understanding!**
+        **🙏 Thank you for your understanding!**      
         """
          )
 
