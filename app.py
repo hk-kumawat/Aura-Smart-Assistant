@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import time
 from dotenv import load_dotenv
-from langchain.chains import LLMChain
+from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -74,16 +74,20 @@ def main():
         model_name="mixtral-8x7b-32768"
     )
 
-    # Define the prompt template for the LLM chain
+    # Initialize conversation memory to handle both `input` and `history`
+    memory = ConversationBufferMemory(memory_key="history", input_key="input")
+
+    # Define the prompt template for the ConversationChain
     prompt_template = PromptTemplate(
-        input_variables=["input"],
-        template="You are a helpful assistant. Respond to the following question: {input}"
+        input_variables=["history", "input"],
+        template="You are a helpful assistant. Here is the conversation history:\n{history}\nRespond to the following question: {input}"
     )
 
-    # Initialize LLMChain with the prompt and Groq model
-    llm_chain = LLMChain(
+    # Initialize ConversationChain with memory
+    conversation_chain = ConversationChain(
         llm=groq_chat,
-        prompt=prompt_template
+        prompt=prompt_template,
+        memory=memory
     )
 
     # Input form with "Send" button
@@ -110,8 +114,8 @@ def main():
             st.session_state.user_name = user_name
             response_text = f"Nice to meet you, {user_name}!"
         else:
-            # Generate response using LLMChain
-            response_text = llm_chain.run(input=user_question)
+            # Generate response using ConversationChain
+            response_text = conversation_chain.run(input=user_question)
 
             # Customize response based on sentiment
             if sentiment_label == "positive":
@@ -211,7 +215,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+
 # Footer section
 st.markdown("---")  
 st.markdown(
@@ -220,5 +224,3 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
-
-
