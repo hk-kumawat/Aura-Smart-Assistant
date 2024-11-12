@@ -28,6 +28,16 @@ if 'all_questions' not in st.session_state:
 
 # Define main function
 def main():
+    with st.expander("**📢 Important Note for Mobile Users**"):
+     st.write(
+        """
+        **💻 Laptop & Desktop Users**: This app works seamlessly on laptops and desktops, providing a smooth experience.  
+        **📱 Mobile Users**: You may need to **tap the 'Send' button twice** to receive a response on mobile devices.  
+        **🙏 Thank you for your understanding!**
+        """
+         )
+
+
     st.markdown(
         """
         <h1 id="aura-title" style="text-align: center; font-size: 40px; animation: fadeIn 2s ease-in-out;">Talk to Aura: The Smart Assistant That Understands You! 🤖💬</h1>
