@@ -2,8 +2,9 @@ import streamlit as st
 import os
 import time
 from dotenv import load_dotenv
-from langchain.chains import ConversationChain
+from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
 from langchain_groq import ChatGroq
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
@@ -68,26 +69,26 @@ def main():
     if 'user_name' not in st.session_state:
         st.session_state.user_name = None
 
+    # Initialize conversation memory
+    conversation_memory = ConversationBufferMemory(memory_key="history")
+
     # Initialize Groq Langchain chat object
     groq_chat = ChatGroq(
         groq_api_key=groq_api_key,
         model_name="mixtral-8x7b-32768"
     )
 
-    # Initialize conversation memory to handle both `input` and `history`
-    memory = ConversationBufferMemory(memory_key="history", input_key="input")
-
-    # Define the prompt template for the ConversationChain
+    # Define the prompt template for the LLM chain
     prompt_template = PromptTemplate(
-        input_variables=["history", "input"],
-        template="You are a helpful assistant. Here is the conversation history:\n{history}\nRespond to the following question: {input}"
+        input_variables=["input", "history"],
+        template="You are a helpful assistant. The conversation so far is:\n{history}\nUser: {input}\nAssistant:"
     )
 
-    # Initialize ConversationChain with memory
-    conversation_chain = ConversationChain(
+    # Initialize LLMChain with the prompt, Groq model, and memory
+    llm_chain = LLMChain(
         llm=groq_chat,
         prompt=prompt_template,
-        memory=memory
+        memory=conversation_memory
     )
 
     # Input form with "Send" button
@@ -114,8 +115,8 @@ def main():
             st.session_state.user_name = user_name
             response_text = f"Nice to meet you, {user_name}!"
         else:
-            # Generate response using ConversationChain
-            response_text = conversation_chain.run(input=user_question)
+            # Generate response using LLMChain with memory for conversation context
+            response_text = llm_chain.run(input=user_question)
 
             # Customize response based on sentiment
             if sentiment_label == "positive":
@@ -215,6 +216,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 # Footer section
 st.markdown("---")  
