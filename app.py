@@ -18,73 +18,44 @@ def analyze_sentiment(text):
     sentiment_score = analyzer.polarity_scores(text)
     return sentiment_score
 
-# Initialize session state memory if it’s not present
+# Initialize session state memory and question tracking
 if 'conversation_memory' not in st.session_state:
     st.session_state.conversation_memory = ConversationBufferMemory(memory_key="history")
-
-# Initialize session state chat history
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+if 'all_questions' not in st.session_state:
+    st.session_state.all_questions = []  # Track all user questions here
 
 # Define main function
 def main():
-    # Title text with fade-in animation and theme-based color changes
     st.markdown(
         """
-        <h1 id="aura-title" style="text-align: center; font-size: 40px; margin-bottom: 0px; animation: fadeIn 2s ease-in-out;">
-            Talk to Aura: The Smart Assistant That Understands You! 🤖💬
-        </h1>
-        <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px;'>
-            Dive into Aura’s world—ask anything, enjoy a unique conversation every time, with instant responses!
-        </p>
+        <h1 id="aura-title" style="text-align: center; font-size: 40px; animation: fadeIn 2s ease-in-out;">Talk to Aura: The Smart Assistant That Understands You! 🤖💬</h1>
+        <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px; animation: fadeIn 2s ease-in-out;'>Dive into Aura’s world—ask anything, enjoy a unique conversation every time!</p>
         <style>
-        /* Fade-in animation definition */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Apply animation to the title */
-        #aura-title {
-            animation: fadeIn 2s ease-in-out;
         }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # JavaScript to change title color based on theme
-    st.markdown(
-        """
-        <script>
-            const auraTitle = document.getElementById("aura-title");
-            function applyTheme() {
-                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    auraTitle.style.color = "white";
-                } else {
-                    auraTitle.style.color = "black";
-                }
-            }
-            applyTheme();
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
-
     # Initialize Groq Langchain chat object
-    groq_chat = ChatGroq(
-        groq_api_key=groq_api_key,
-        model_name="mixtral-8x7b-32768"
-    )
+    groq_chat = ChatGroq(groq_api_key=groq_api_key, model_name="mixtral-8x7b-32768")
 
-    # Define the prompt template for the LLM chain
+    # Define the prompt template with additional context for conversation recall
     prompt_template = PromptTemplate(
         input_variables=["input", "history"],
-        template="You are a helpful assistant. The conversation so far is:\n{history}\nUser: {input}\nAssistant:"
+        template=( 
+            "You are a helpful assistant. The conversation so far is:\n{history}\n"
+            "User: {input}\nAssistant:"
+            "If the user asks about their first question, please respond with the actual first question stored in your memory."
+        )
     )
 
-    # Initialize LLMChain with the prompt, Groq model, and persistent memory
+    # Initialize LLMChain with memory
     llm_chain = LLMChain(
         llm=groq_chat,
         prompt=prompt_template,
@@ -105,6 +76,9 @@ def main():
             sentiment_label = "positive"
         elif sentiment['compound'] <= -0.05:
             sentiment_label = "negative"
+
+        # Store the question in the question tracking list
+        st.session_state.all_questions.append(user_question)
 
         # Generate response using LLMChain with memory
         response_text = llm_chain.run(input=user_question)
@@ -131,81 +105,53 @@ def main():
 
     # Display conversation in reverse order (latest message on top)
     for msg in st.session_state.chat_history:
+        # Dynamically calculate width based on message length
         user_width = min(50 + len(msg["human"]) // 5, 75)
         bot_width = min(50 + len(msg["AI"]) // 5, 75)
+        spacing = "20px"  # Add spacing between the user and bot messages
 
         # Chatbot's response aligned left with animation
         st.markdown(
             f"""
-            <div class="bubble bot" style="padding: 15px; border-radius: 8px; background-color: {bot_bg}; color: {text_color}; width: {bot_width}%; margin-right: auto; text-align: left; margin-top: 15px;">
-                <strong>Aura:</strong> {msg["AI"]}
+            <div class="bubble bot" style="padding: 15px; border-radius: 8px; background-color: {bot_bg}; color: {text_color}; width: {bot_width}%; margin-right: auto; text-align: left; animation: slideInLeft 0.5s ease-in-out; margin-bottom: {spacing};">
+                <strong>Aura:</strong> {msg['AI']}
             </div>
             """, unsafe_allow_html=True)
 
         # User's message aligned right with animation
         st.markdown(
             f"""
-            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; margin-top: 15px;">
-                <strong>You:</strong> {msg["human"]}
+            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
+                <strong>You:</strong> {msg['human']}
             </div>
             """, unsafe_allow_html=True)
 
-    # Add smooth scrolling to the page
-    st.markdown('<script>window.scrollTo(0, document.body.scrollHeight);</script>', unsafe_allow_html=True)
-
-    # CSS for chat bubbles with side-specific animations
+    # CSS for user and Aura bubbles with animations
     st.markdown(
         """
         <style>
-        /* Animation for user message sliding from the right */
         @keyframes slideInRight {
             from { opacity: 0; transform: translateX(20px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* Animation for Aura’s response sliding from the left */
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-20px); }
             to { opacity: 1; transform: translateX(0); }
         }
-
-        /* Apply animations to user and bot bubbles */
-        .bubble.user {
-            animation: slideInRight 0.5s ease-in-out;
-        }
-        .bubble.bot {
-            animation: slideInLeft 0.5s ease-in-out;
-        }
-
-        /* Adjust colors for the textarea and send button */
-        textarea {
-            border-radius: 8px;
-            border: 2px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        textarea:focus {
-            border-color: #00796b;
-        }
-        .css-1gw3tw1.edgvbvh3 {
-            transition: background-color 0.3s ease;
-        }
-        .css-1gw3tw1.edgvbvh3:hover {
-            background-color: #00796b;
-            color: white;
-        }
         </style>
         """, unsafe_allow_html=True)
+    
 
 if __name__ == "__main__":
     main()
+
     
-# Footer section
-st.markdown("---")  
-st.markdown(
-    "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
-    "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
-    "</div>",
-    unsafe_allow_html=True
-)
+    # Show footer
+    st.markdown("---")
+    st.markdown(
+        "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
+        "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
+        "</div>",
+        unsafe_allow_html=True
+    )
