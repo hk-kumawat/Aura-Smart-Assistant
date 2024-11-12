@@ -62,9 +62,10 @@ def main():
         memory=st.session_state.conversation_memory
     )
 
-    # Input for user question
-    user_question = st.text_area("Ask a question:", key="user_input")
-    send_button = st.button("Send")
+    # Input form for user question
+    with st.form(key="chat_form", clear_on_submit=True):
+        user_question = st.text_area("Ask a question:", key="user_input")
+        send_button = st.form_submit_button("Send")
 
     # Process the question if send_button is clicked
     if send_button and user_question:
@@ -154,3 +155,7 @@ if __name__ == "__main__":
         "</div>",
         unsafe_allow_html=True
     )
+
+
+
+
