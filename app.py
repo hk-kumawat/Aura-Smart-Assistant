@@ -18,6 +18,15 @@ def analyze_sentiment(text):
     sentiment_score = analyzer.polarity_scores(text)
     return sentiment_score
 
+# Initialize session state memory if it’s not present
+if 'conversation_memory' not in st.session_state:
+    st.session_state.conversation_memory = ConversationBufferMemory(memory_key="history")
+
+# Initialize session state chat history
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
+
+# Define main function
 def main():
     # Title text with fade-in animation and theme-based color changes
     st.markdown(
@@ -63,15 +72,6 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Initialize memory to remember full conversation history
-    if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = []
-    if 'user_name' not in st.session_state:
-        st.session_state.user_name = None
-
-    # Initialize conversation memory
-    conversation_memory = ConversationBufferMemory(memory_key="history")
-
     # Initialize Groq Langchain chat object
     groq_chat = ChatGroq(
         groq_api_key=groq_api_key,
@@ -84,14 +84,14 @@ def main():
         template="You are a helpful assistant. The conversation so far is:\n{history}\nUser: {input}\nAssistant:"
     )
 
-    # Initialize LLMChain with the prompt, Groq model, and memory
+    # Initialize LLMChain with the prompt, Groq model, and persistent memory
     llm_chain = LLMChain(
         llm=groq_chat,
         prompt=prompt_template,
-        memory=conversation_memory
+        memory=st.session_state.conversation_memory
     )
 
-    # Input form with "Send" button
+    # Input form for user question
     with st.form(key="chat_form", clear_on_submit=True):
         user_question = st.text_area("Ask a question:", key="user_input")
         send_button = st.form_submit_button("Send")
@@ -105,45 +105,29 @@ def main():
             sentiment_label = "positive"
         elif sentiment['compound'] <= -0.05:
             sentiment_label = "negative"
-        
-        # Respond based on sentiment
-        if "name" in user_question.lower() and st.session_state.user_name:
-            response_text = f"Your name is {st.session_state.user_name}."
-        elif "my name is" in user_question.lower():
-            name_start = user_question.lower().find("my name is") + len("my name is")
-            user_name = user_question[name_start:].strip()
-            st.session_state.user_name = user_name
-            response_text = f"Nice to meet you, {user_name}!"
-        else:
-            # Generate response using LLMChain with memory for conversation context
-            response_text = llm_chain.run(input=user_question)
 
-            # Customize response based on sentiment
-            if sentiment_label == "positive":
-                response_text = f"😊 {response_text}"
-            elif sentiment_label == "negative":
-                response_text = f"😔 {response_text}"
-            else:
-                response_text = f"🙂 {response_text}"
+        # Generate response using LLMChain with memory
+        response_text = llm_chain.run(input=user_question)
+
+        # Customize response based on sentiment
+        if sentiment_label == "positive":
+            response_text = f"😊 {response_text}"
+        elif sentiment_label == "negative":
+            response_text = f"😔 {response_text}"
+        else:
+            response_text = f"🙂 {response_text}"
+
+        # Save conversation in session state memory for continuity
+        st.session_state.conversation_memory.chat_memory.add_user_message(user_question)
+        st.session_state.conversation_memory.chat_memory.add_ai_message(response_text)
+        st.session_state.chat_history.insert(0, {'human': user_question, 'AI': response_text})
 
         # Small delay to ensure sync on mobile
         time.sleep(0.1)
 
-        # Save the conversation in session state
-        st.session_state.chat_history.insert(0, {'human': user_question, 'AI': response_text})
-
     # Detect Streamlit theme setting (light/dark mode)
     theme = st.get_option("theme.base")
-
-    # Define color schemes based on theme
-    if theme == "dark":
-        user_bg = "#00796b"
-        bot_bg = "#333"
-        text_color = "white"
-    else:
-        user_bg = "#e0f7fa"
-        bot_bg = "#f1f1f1"
-        text_color = "black"
+    user_bg, bot_bg, text_color = ("#00796b", "#333", "white") if theme == "dark" else ("#e0f7fa", "#f1f1f1", "black")
 
     # Display conversation in reverse order (latest message on top)
     for msg in st.session_state.chat_history:
@@ -216,8 +200,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
+    
 # Footer section
 st.markdown("---")  
 st.markdown(
