@@ -10,7 +10,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load API keys from .env file
 load_dotenv()
-groq_api_key = os.environ("GROQ_API_KEY")
+groq_api_key = os.environ["GROQ_API_KEY"]
 #groq_api_key = st.secrets["GROQ_API_KEY"]
 
 # Function to analyze sentiment (Emotion Recognition)
