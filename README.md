@@ -9,7 +9,7 @@
 
 Whether you're seeking **quick information**, **exploring ideas**, or having a **casual chat**, **Aura** understands and generates **context-aware** responses tailored to your needs. It uses **sentiment analysis** for emotionally intelligent replies and leverages **GroQ's powerful backend** for fast, reliable, and rich responses. 
 
-
+    
 
 ## Live Demo
 
