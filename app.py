@@ -38,16 +38,17 @@ def main():
             """
         )
 
+     # Display Aura's goal and purpose
     st.markdown(
         """
-        <h1 id="aura-title" style="text-align: center; font-size: 40px; animation: fadeIn 2s ease-in-out;">Talk to Aura: The Smart Assistant That Understands You! 🤖💬</h1>
-        <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px; animation: fadeIn 2s ease-in-out;'>Dive into Aura’s world—ask anything, enjoy a unique conversation every time!</p>
-        <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        </style>
+        <h2 style="text-align: center; font-size: 24px; color: #00796b; margin-top: 20px;">🚀 **Aura's Goal: Instant, Intuitive, and Efficient Responses** 🤖</h2>
+        <p style="text-align: center; color: #00796b; font-size: 18px; margin-top: 10px;">
+            Aura was designed with one goal in mind: <strong>to provide quick, intuitive, and efficient responses</strong> to your questions. 💬✨
+            <br><br>
+            While other models like ChatGPT offer fantastic conversational experiences, <strong>Aura</strong> focuses on delivering <em>rapid, instant answers</em> to make your interactions seamless and efficient. ⚡️💡
+            <br><br>
+            It's all about <strong>speed</strong> and <strong>clarity</strong>—your questions answered <em>instantly</em> for a smooth, engaging experience. 🌟
+        </p>
         """,
         unsafe_allow_html=True
     )
