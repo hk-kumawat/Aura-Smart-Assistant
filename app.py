@@ -29,6 +29,7 @@ if 'first_question' not in st.session_state:
 
 # Define main function
 def main():
+    # Display important note for mobile users
     with st.expander("**📢 Important Note for Mobile Users**"):
         st.write(
             """    
@@ -38,7 +39,7 @@ def main():
             """
         )
 
-     # Display Aura's goal and purpose
+    # Display Aura's goal in a dropdown (expandable section)
     with st.expander("🚀 **Aura's Goal: Instant, Intuitive, and Efficient Responses** 🤖"):
         st.write(
             """
@@ -51,13 +52,27 @@ def main():
             unsafe_allow_html=True
         )
 
+    st.markdown(
+        """
+        <h1 id="aura-title" style="text-align: center; font-size: 40px; animation: fadeIn 2s ease-in-out;">Talk to Aura: The Smart Assistant That Understands You! 🤖💬</h1>
+        <p style='text-align: center; color: #00796b; font-size: 18px; margin-top: 0px; animation: fadeIn 2s ease-in-out;'>Dive into Aura’s world—ask anything, enjoy a unique conversation every time!</p>
+        <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Initialize Groq Langchain chat object
     groq_chat = ChatGroq(groq_api_key=groq_api_key, model_name="mixtral-8x7b-32768")
 
     # Define the prompt template with additional context for conversation recall
     prompt_template = PromptTemplate(
         input_variables=["input", "history"],
-        template=(
+        template=( 
             "You are a helpful assistant. The conversation so far is:\n{history}\n"
             "User: {input}\nAssistant:\n"
         )
