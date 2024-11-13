@@ -39,19 +39,17 @@ def main():
         )
 
      # Display Aura's goal and purpose
-    st.markdown(
-        """
-        <h2 style="text-align: center; font-size: 24px; color: #00796b; margin-top: 20px;">🚀 **Aura's Goal: Instant, Intuitive, and Efficient Responses** 🤖</h2>
-        <p style="text-align: center; color: #00796b; font-size: 18px; margin-top: 10px;">
+    with st.expander("🚀 **Aura's Goal: Instant, Intuitive, and Efficient Responses** 🤖"):
+        st.write(
+            """
             Aura was designed with one goal in mind: <strong>to provide quick, intuitive, and efficient responses</strong> to your questions. 💬✨
             <br><br>
             While other models like ChatGPT offer fantastic conversational experiences, <strong>Aura</strong> focuses on delivering <em>rapid, instant answers</em> to make your interactions seamless and efficient. ⚡️💡
             <br><br>
             It's all about <strong>speed</strong> and <strong>clarity</strong>—your questions answered <em>instantly</em> for a smooth, engaging experience. 🌟
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
+            """,
+            unsafe_allow_html=True
+        )
 
     # Initialize Groq Langchain chat object
     groq_chat = ChatGroq(groq_api_key=groq_api_key, model_name="mixtral-8x7b-32768")
