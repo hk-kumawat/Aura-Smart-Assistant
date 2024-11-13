@@ -10,7 +10,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 # Load API keys from .env file
 load_dotenv()
-groq_api_key = os.environ['GROQ_API_KEY']
+groq_api_key = st.secrets["GROQ_API_KEY"]
 
 # Function to analyze sentiment (Emotion Recognition)
 def analyze_sentiment(text):
@@ -25,19 +25,19 @@ if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
 if 'all_questions' not in st.session_state:
     st.session_state.all_questions = []  # Track all user questions here
-
+if 'first_question' not in st.session_state:
+    st.session_state.first_question = None  # Store first question
 
 # Define main function
 def main():
     with st.expander("**📢 Important Note for Mobile Users**"):
-     st.write(
-        """    
-        **💻 Laptop & Desktop Users**: This app works seamlessly on laptops and desktops, providing a smooth experience.  
-        **📱 Mobile Users**: You may need to **tap the 'Send' button twice** to receive a response on mobile devices.  
-        **🙏 Thank you for your understanding!**      
-        """
-         )
-
+        st.write(
+            """    
+            **💻 Laptop & Desktop Users**: This app works seamlessly on laptops and desktops, providing a smooth experience.  
+            **📱 Mobile Users**: You may need to **tap the 'Send' button twice** to receive a response on mobile devices.  
+            **🙏 Thank you for your understanding!**      
+            """
+        )
 
     st.markdown(
         """
@@ -59,10 +59,11 @@ def main():
     # Define the prompt template with additional context for conversation recall
     prompt_template = PromptTemplate(
         input_variables=["input", "history"],
-        template=( 
+        template=(
             "You are a helpful assistant. The conversation so far is:\n{history}\n"
-            "User: {input}\nAssistant:"
-            "If the user asks about their first question, please respond with the actual first question stored in your memory."
+            "User: {input}\nAssistant:\n"
+            "If the user asks about the first question, respond with the actual first question stored in your memory."
+            " Otherwise, respond based on the conversation context."
         )
     )
 
@@ -80,27 +81,32 @@ def main():
 
     # Process the question if send_button is clicked
     if send_button and user_question:
-        # Analyze sentiment of the user's input
-        sentiment = analyze_sentiment(user_question)
-        sentiment_label = "neutral"
-        if sentiment['compound'] >= 0.05:
-            sentiment_label = "positive"
-        elif sentiment['compound'] <= -0.05:
-            sentiment_label = "negative"
+        # Check if this is the user's first question and store it
+        if st.session_state.first_question is None:
+            st.session_state.first_question = user_question
 
-        # Store the question in the question tracking list
-        st.session_state.all_questions.append(user_question)
-
-        # Generate response using LLMChain with memory
-        response_text = llm_chain.run(input=user_question)
-
-        # Customize response based on sentiment
-        if sentiment_label == "positive":
-            response_text = f"😊 {response_text}"
-        elif sentiment_label == "negative":
-            response_text = f"😔 {response_text}"
+        # Check if the user is asking about the first question
+        if "first question" in user_question.lower():
+            response_text = f"The first question you asked was: {st.session_state.first_question}"
         else:
-            response_text = f"🙂 {response_text}"
+            # Analyze sentiment of the user's input
+            sentiment = analyze_sentiment(user_question)
+            sentiment_label = "neutral"
+            if sentiment['compound'] >= 0.05:
+                sentiment_label = "positive"
+            elif sentiment['compound'] <= -0.05:
+                sentiment_label = "negative"
+
+            # Generate response using LLMChain with memory
+            response_text = llm_chain.run(input=user_question)
+
+            # Customize response based on sentiment
+            if sentiment_label == "positive":
+                response_text = f"😊 {response_text}"
+            elif sentiment_label == "negative":
+                response_text = f"😔 {response_text}"
+            else:
+                response_text = f"🙂 {response_text}"
 
         # Save conversation in session state memory for continuity
         st.session_state.conversation_memory.chat_memory.add_user_message(user_question)
@@ -152,21 +158,16 @@ def main():
         }
         </style>
         """, unsafe_allow_html=True)
-    
 
+# Run the app
 if __name__ == "__main__":
     main()
 
-    
     # Show footer
     st.markdown("---")
     st.markdown(
         "<div style='text-align: center; color: #7f8c8d; font-size: 16px;'>"
-        "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"
+        "<p style='text-align: center;'>🔮 <strong>Brought to Life By</strong> - Harshal Kumawat 🤖</p>"  
         "</div>",
         unsafe_allow_html=True
     )
-
-
-
-
