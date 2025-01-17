@@ -134,7 +134,7 @@ def main():
             """, unsafe_allow_html=True)
 
         # User's message aligned right with animation
-       user_width = min(50 + len(msg["human"]) // 5, 75)  
+           user_width = min(50 + len(msg["human"]) // 5, 75)  
 
         st.markdown(
             f"""
