@@ -118,7 +118,7 @@ def main():
 
         st.markdown(
             f"""
-            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}; margin: auto; text-align: justify; animation: fadeIn 0.5s ease-in-out; margin-bottom: {spacing};">
+            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: 100%; text-align: left; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
                 <strong>You:</strong> {msg['human']}
             </div>
             """, unsafe_allow_html=True)
