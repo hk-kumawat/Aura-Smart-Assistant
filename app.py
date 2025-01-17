@@ -132,14 +132,14 @@ def main():
                 <strong>Aura:</strong> {msg['AI']}
             </div>
             """, unsafe_allow_html=True)
-
         # User's message aligned right with animation
-        st.markdown(
-            f"""
+            st.markdown(
+             f"""
             <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: right; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
                 <strong>You:</strong> {msg['human']}
             </div>
             """, unsafe_allow_html=True)
+
 
     # CSS for user and Aura bubbles with animations
     st.markdown(
