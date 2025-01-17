@@ -121,8 +121,8 @@ def main():
     # Display conversation in reverse order (latest message on top)
     for msg in st.session_state.chat_history:
         # Dynamically calculate width based on message length
-        user_width = min(50 + len(msg["human"]) // 5, 75)
-        bot_width = min(50 + len(msg["AI"]) // 5, 75)
+        user_width = min(50 + len(msg["human"]) // 5, 75)  # Adjust user message width dynamically
+        bot_width = min(50 + len(msg["AI"]) // 5, 75)  # Adjust bot message width dynamically
         spacing = "20px"  # Add spacing between the user and bot messages
 
         # Chatbot's response aligned left with animation
@@ -134,8 +134,6 @@ def main():
             """, unsafe_allow_html=True)
 
         # User's message aligned right with animation
-           user_width = min(50 + len(msg["human"]) // 5, 75)  
-
         st.markdown(
             f"""
             <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: left; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
