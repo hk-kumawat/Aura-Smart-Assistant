@@ -134,10 +134,11 @@ def main():
             """, unsafe_allow_html=True)
 
         # User's message aligned right with animation
-       # User's message with updated CSS to evenly distribute text
+       user_width = min(50 + len(msg["human"]) // 5, 75)  # Dynamically adjust width based on message length
+
         st.markdown(
             f"""
-            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: 100%; text-align: left; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
+            <div class="bubble user" style="padding: 15px; border-radius: 8px; background-color: {user_bg}; color: {text_color}; width: {user_width}%; margin-left: auto; text-align: left; animation: slideInRight 0.5s ease-in-out; margin-bottom: {spacing};">
                 <strong>You:</strong> {msg['human']}
             </div>
             """, unsafe_allow_html=True)
