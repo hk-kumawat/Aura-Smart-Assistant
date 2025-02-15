@@ -202,13 +202,17 @@ hk-kumawat-aura-smart-assistant/
 
 ## Future Enhancements🚀
 
-1. **Multi-turn Conversation**: Enhance the assistant to remember the context over multiple interactions for deeper conversations.
+1. **Multi-turn Conversation**:
+  Enhance the assistant to remember the context over multiple interactions for deeper conversations.
  
-2. **Emotionally Intelligent Responses**: Expand sentiment analysis to detect a broader range of emotions (e.g., joy, anger, surprise).
+3. **Emotionally Intelligent Responses**:
+  Expand sentiment analysis to detect a broader range of emotions (e.g., joy, anger, surprise).
 
-3. **Real-world Integration**: Integrate with external services (e.g., calendars, reminders, news, etc.) to make Aura more functional.
+5. **Real-world Integration**:
+  Integrate with external services (e.g., calendars, reminders, news, etc.) to make Aura more functional.
 
-4. **Voice Integration**: Enable Aura to understand and respond via voice, making it more interactive.
+7. **Voice Integration**:
+  Enable Aura to understand and respond via voice, making it more interactive.
 
 <br> 
 
