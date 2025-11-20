@@ -48,7 +48,7 @@
 
 ---
 
-## 🎯 About The Project
+## 🎯About The Project
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0fdd7c08-9426-45a6-8cf0-e30c4ea263e6" alt="Aura Assistant Demo">
@@ -69,7 +69,7 @@ Powered by **Groq's high-performance LLM infrastructure**, **LangChain** for con
 
 ---
 
-## ⚡ Quick Start
+## ⚡Quick Start
 
 Get Aura running in under 5 minutes:
 
@@ -93,7 +93,7 @@ streamlit run app.py
 
 ---
 
-## ✨ Key Features
+## ✨Key Features
 
 | Feature | Description | Status |
 |---------|-------------|--------|
@@ -109,7 +109,7 @@ streamlit run app.py
 
 ---
 
-## 🌐 Live Demo
+## 🌐Live Demo
 
 Experience Aura in action! 👉 [![Try Aura Now!](https://img.shields.io/badge/Try%20Aura%20Now!-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://ask-aura.streamlit.app/)
 
@@ -120,7 +120,7 @@ Experience Aura in action! 👉 [![Try Aura Now!](https://img.shields.io/badge/T
 
 ---
 
-## 🏗️ Architecture
+## 🔧Architecture
 
 ```mermaid
 graph TB
@@ -160,7 +160,7 @@ graph TB
 
 ---
 
-## 📊 Performance
+## 📊Performance
 
 ### Response Times
 
@@ -179,7 +179,7 @@ graph TB
 
 ---
 
-## 🚀 Getting Started
+## 🚀Getting Started
 
 ### Prerequisites
 
@@ -288,7 +288,7 @@ python -c "from langchain_groq import ChatGroq; print('✅ LangChain Groq instal
 
 ---
 
-## 💻 Usage
+## 💻Usage
 
 ### Running Locally
 
@@ -366,7 +366,7 @@ Aura: 🙂 You just asked me about Python, which is a programming language...
 
 ---
 
-## 🌐 Deployment
+## 🌐Deployment
 
 ### Deploy to Streamlit Cloud (Free)
 
@@ -459,7 +459,7 @@ git push heroku main
 
 ---
 
-## 🛠️ Technologies Used
+## 💻Technologies Used
 
 ### Core Technologies
 
@@ -492,7 +492,7 @@ vaderSentiment>=3.3.2
 
 ---
 
-## 📁 Project Structure
+## 📁Project Structure
 
 ```
 Aura-Smart-Assistant/
@@ -535,7 +535,7 @@ Aura-Smart-Assistant/
 
 ---
 
-## 🧠 How It Works
+## 🧠How It Works
 
 ### Technical Deep Dive
 
@@ -624,7 +624,7 @@ bot_width = min(50 + len(msg["AI"]) // 5, 75)
 
 ---
 
-## 🔒 Security Best Practices
+## 🔒Security Best Practices
 
 ### API Key Protection
 
@@ -660,7 +660,7 @@ groq_api_key = "gsk_abc123xyz..."  # NEVER DO THIS!
 
 ---
 
-## 📊 API Rate Limits
+## 📊API Rate Limits
 
 ### Groq API Limits (Free Tier)
 
@@ -692,7 +692,7 @@ Track your usage at [console.groq.com/usage](https://console.groq.com)
 
 ---
 
-## 🔧 Troubleshooting
+## 🔧Troubleshooting
 
 ### Common Issues and Solutions
 
@@ -854,7 +854,7 @@ OSError: [Errno 48] Address already in use
 
 ---
 
-## ❓ FAQ
+## ❓FAQ
 
 <details>
 <summary><b>Is Aura completely free to use?</b></summary>
@@ -975,7 +975,7 @@ To handle longer conversations, implement conversation summarization or chunking
 
 ---
 
-## 🚀 Future Enhancements
+## 🚀Future Enhancements
 
 ### Planned Features
 
@@ -998,7 +998,7 @@ Want a feature? [Open an issue](https://github.com/hk-kumawat/Aura-Smart-Assista
 
 ---
 
-## 🤝 Contributing
+## 🤝Contributing
 
 Contributions are what make the open-source community amazing! Any contributions you make are **greatly appreciated**.
 
@@ -1085,7 +1085,7 @@ Contributions are what make the open-source community amazing! Any contributions
 
 ---
 
-## 📝 License
+## 📝License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
@@ -1098,7 +1098,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 ---
 
-## 📬 Contact
+## 📬Contact
 
 <div align="center">
 
@@ -1118,7 +1118,7 @@ Feel free to reach out for collaborations, questions, or feedback:
 
 ---
 
-## 🙏 Acknowledgments
+## 🙏Acknowledgments
 
 Special thanks to these amazing projects and communities:
 
