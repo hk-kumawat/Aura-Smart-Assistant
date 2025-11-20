@@ -1,271 +1,427 @@
 <a id="readme-top"></a>
 
-# **Aura Smart Assistant 🤖**
+<div align="center">
+
+# 🤖 Aura Smart Assistant
+
+### AI-Powered Conversational Assistant with Sentiment Intelligence
+
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)](https://streamlit.io/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![LangChain](https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white)](https://www.langchain.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+[Live Demo](https://ask-aura.streamlit.app/) • [Report Bug](https://github.com/hk-kumawat/Aura-Smart-Assistant/issues) • [Request Feature](https://github.com/hk-kumawat/Aura-Smart-Assistant/issues)
 
 ![Aura Logo](https://github.com/user-attachments/assets/8c9825be-d9de-4488-a770-24431601b571)
 
-## Overview
+</div>
 
-**Aura Smart Assistant** is an AI-powered conversational assistant designed to engage in meaningful, context-aware interactions with users. Built using **LangChain**, **VaderSentiment**, and **GroQ**, Aura can respond to text-based queries and provide insightful answers in real-time. 
+---
 
-Whether you're seeking **quick information**, **exploring ideas**, or having a **casual chat**, **Aura** understands and generates **context-aware** responses tailored to your needs. It uses **sentiment analysis** for emotionally intelligent replies and leverages **GroQ's powerful backend** for fast, reliable, and rich responses. 
+## 📋 Table of Contents
 
-<br>
+- [About The Project](#about-the-project)
+- [Key Features](#key-features)
+- [Live Demo](#live-demo)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [How It Works](#how-it-works)
+- [Troubleshooting](#troubleshooting)
+- [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Live Demo
+---
 
-Explore Aura in action! 👉🏻 [![Experience Aura! 🌟](https://img.shields.io/badge/Experience%20Aura!-blue)](https://ask-aura.streamlit.app/)
-
-<br>
-
-_Aura, your friendly assistant, is here to chat and answer your questions! 👇🏻_
+## 🎯 About The Project
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0fdd7c08-9426-45a6-8cf0-e30c4ea263e6" alt="Aura Assistant Demo">
 </p>
 
+**Aura Smart Assistant** is an intelligent, emotionally-aware chatbot built to provide **instant, context-aware responses** to user queries. Unlike traditional chatbots, Aura analyzes the sentiment of your messages and adapts its tone accordingly, creating a more human-like conversational experience.
 
-<br>
+Powered by **Groq's high-performance LLM infrastructure**, **LangChain** for conversation orchestration, and **VADER** for sentiment analysis, Aura delivers lightning-fast responses while maintaining conversation context across multiple exchanges.
 
+### 🌟 Why Aura?
 
-## Learning Journey 🗺️
+- **⚡ Speed-Focused**: Leverages Groq's optimized inference for near-instantaneous responses
+- **🧠 Context-Aware**: Remembers conversation history for coherent, multi-turn dialogues
+- **😊 Emotionally Intelligent**: Adjusts response tone based on detected sentiment
+- **🎨 Beautiful UI**: Clean, animated interface with dynamic message bubbles
+- **🔒 Privacy-First**: Session-based memory that clears on refresh
 
-I developed Aura to merge my passion for conversational AI with my desire to create highly responsive applications. Here’s a snapshot of my journey:
+---
 
-- **Inspiration:**  
-  Inspired by the need for smarter, faster AI assistants, I wanted to create an assistant that not only responds accurately but also adapts its tone based on your sentiment.
+## ✨ Key Features
 
-- **Why I Made It:**  
-  Aura was built to provide instant answers with a personalized touch. By integrating Groq Chat with LangChain and using sentiment analysis, I aimed to deliver fast responses that feel both human and efficient.
+| Feature | Description |
+|---------|-------------|
+| **💬 Natural Conversations** | Powered by Mixtral-8x7B model for human-like interactions |
+| **🎭 Sentiment Analysis** | Real-time emotion detection using VADER (positive/negative/neutral) |
+| **🧵 Conversation Memory** | Maintains context throughout your session using LangChain's memory system |
+| **🎨 Dynamic UI** | Responsive chat bubbles with smooth animations and theme support |
+| **🌓 Dark/Light Mode** | Automatic theme detection and adaptation |
+| **📊 First Question Tracking** | Stores initial query for enhanced context understanding |
+| **🚀 High Performance** | Sub-second response times via Groq's LPU inference |
 
-- **Challenges Faced:**  
-  - **API & Environment Management:** Handling API keys securely with Streamlit’s secrets management and dotenv.
-  - **Conversational Memory:** Implementing session-based conversation history for continuous dialogue.
-  - **Dynamic UI:** Creating an engaging UI with animations and custom CSS for a smooth chat experience.
+---
 
-- **What I Learned:**  
-  - Mastery of **Streamlit** for interactive web apps.
-  - Leveraging **LangChain** and **Groq Chat** for building conversational agents.
-  - Integrating sentiment analysis using **VADER** to tailor responses.
-  - Best practices for session management and responsive design.
+## 🌐 Live Demo
 
-Every step of this project has enriched my understanding of AI-powered conversations and reinforced my commitment to creating user-friendly solutions.
+Experience Aura in action! 👉 [![Try Aura Now!](https://img.shields.io/badge/Try%20Aura%20Now!-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://ask-aura.streamlit.app/)
 
-<br>
+---
 
+## 🏗️ Architecture
 
-## Table of Contents
+```
+┌─────────────┐
+│    User     │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────────────────────────┐
+│   Streamlit Frontend (app.py)   │
+│  ┌──────────────────────────┐   │
+│  │  Input Processing Layer   │   │
+│  └────────────┬──────────────┘   │
+│               │                  │
+│       ┌───────┴────────┐         │
+│       ▼                ▼         │
+│  ┌─────────┐    ┌──────────┐    │
+│  │ VADER   │    │LangChain │    │
+│  │Sentiment│    │  Memory  │    │
+│  └────┬────┘    └─────┬────┘    │
+│       │               │          │
+│       └───────┬───────┘          │
+│               ▼                  │
+│     ┌──────────────────┐         │
+│     │   LLMChain       │         │
+│     │   (ChatGroq)     │         │
+│     └────────┬─────────┘         │
+└──────────────┼──────────────────┘
+               │
+               ▼
+       ┌──────────────┐
+       │  Groq API    │
+       │  (Mixtral)   │
+       └──────┬───────┘
+               │
+               ▼
+       Response + Sentiment
+```
 
-1. [Features](#features)
-2. [How It Works](#how-it-works)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Technologies Used](#technologies-used)
-6. [Results](#results)
-7. [Directory Structure](#directory-structure)
-8. [Future Enhancements](#future-enhancements)
-9. [Contributing](#contributing)
-10. [License](#license)
-11. [Contact](#contact)
+---
 
-<br>
+## 🚀 Getting Started
 
-## Features🌟
+### Prerequisites
 
-- **Context-Aware Conversations**:
-  Responds to a wide range of questions with personalized, instant answers.
-  
-- **Sentiment Analysis**:
-  Analyzes the sentiment of user inputs using **VaderSentiment** to provide tone-appropriate responses.
-  
-- **Real-time Responses**:
-  Powered by **GroQ API**, ensuring a fast response time.
-  
-- **Streamlit Interface**:
-  Interactive and user-friendly interface for seamless interaction with Aura.
-  
-- **Temporary Memory**:
-  Remembers user inputs (such as name or preferences) temporarily during a session, so Aura can provide more personalized responses. Once the tab is refreshed, all memory is cleared to protect privacy.
+- **Python 3.8+** installed on your system
+- **Groq API Key** (get one at [console.groq.com](https://console.groq.com))
+- Basic knowledge of Python and virtual environments
 
-<br>
+### Installation
 
-## How It Works🧠
-
-1. **User Input**: The user types a message or question into the chat interface.
-   
-2. **Sentiment Analysis**: The text is processed by **VaderSentiment** to detect the sentiment and adjust the tone of Aura's response accordingly.
- 
-3. **GroQ API**: The input is sent to the **GroQ API**, which handles intelligent query answering and provides a context-aware response.
- 
-4. **Response**: Aura generates an instant response, displayed to the user through the Streamlit interface.
-
-<br>
-
-
-## Installation🛠
-
-1. **Clone the repository:**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/hk-kumawat/Aura-Smart-Assistant.git
    cd Aura-Smart-Assistant
    ```
 
-2. **Create & Activate a Virtual Environment (optional but recommended):**
+2. **Create a virtual environment** (recommended)
    ```bash
+   # On macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
+
+   # On Windows
    python -m venv venv
-   source venv/bin/activate       # On Windows: venv\Scripts\activate
+   venv\Scripts\activate
    ```
 
-3. **Install Required Packages:**
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Set Up Your API Key:**
-   - Create a `.env` file or use Streamlit's secrets management.
-   - For Streamlit, create a `.streamlit/secrets.toml` file and add:
-     ```toml
-     [GROQ]
-     GROQ_API_KEY = "your_groq_api_key_here"
-     ```
-   - Alternatively, set the environment variable as needed.
+### Configuration
 
-<br>
+#### Option 1: Using Streamlit Secrets (Recommended for Deployment)
 
+1. Create a `.streamlit` directory in the project root:
+   ```bash
+   mkdir .streamlit
+   ```
 
-## Usage🚀
+2. Create a `secrets.toml` file inside `.streamlit/`:
+   ```bash
+   touch .streamlit/secrets.toml
+   ```
 
-### Running the Aura Smart Assistant
+3. Add your API key:
+   ```toml
+   GROQ_API_KEY = "your_groq_api_key_here"
+   ```
 
-Start the smart assistant with:
+#### Option 2: Using Environment Variables (For Local Development)
+
+1. Create a `.env` file in the project root:
+   ```bash
+   touch .env
+   ```
+
+2. Add your API key:
+   ```env
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+3. Update `app.py` line 14 to use the `.env` file:
+   ```python
+   groq_api_key = os.environ["GROQ_API_KEY"]
+   ```
+
+---
+
+## 💻 Usage
+
+### Running the Application
+
+Start the Streamlit app:
+
 ```bash
-Streamlight run app.py
-```
-**Features include:**
-- **Conversational Interface:** Chat with Aura by typing your questions.
-- **Sentiment-Based Responses:** Aura adjusts its replies based on your emotional tone.
-- **Dynamic Conversation Memory:** Enjoy continuous and coherent interactions.
-
-<br>
-
-## Technologies Used💻
-
-- **Programming Language:**  
-  - `Python`
-
-- **Web Framework:**  
-  - `Streamlit`
-
-- **Conversational AI:**  
-  - `LangChain`
-  - `ChatGroq` (for LLM-based chat)
-
-- **Sentiment Analysis:**  
-  - `VADER SentimentIntensityAnalyzer`
-
-- **Environment Management:**  
-  - `python-dotenv`
-
-- **Other:**  
-  - Standard libraries like `os`, `time`
-    
-
-<br>
-
-
-## Results🏆
-
-The **Aura Smart Assistant** is able to provide meaningful, real-time answers to various types of questions. It successfully understands and responds in a contextually relevant manner based on sentiment analysis and intelligent querying through the **GroQ API**.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/65916371-7928-44bd-bb3c-03286f40e19f" alt="Aura Conversation Example" width="600"/>
-</p>
-
-In the example above, Aura correctly analyzes the input, adjusts its tone based on sentiment, and generates an appropriate response.
-
-
-<br>
-
-
-## Directory Structure📁
-
-```plaintext
-hk-kumawat-aura-smart-assistant/
-├── README.md           # Project documentation
-├── LICENSE             # License information
-├── app.py              # Streamlit application for Aura Smart Assistant
-└── requirements.txt    # List of dependencies
+streamlit run app.py
 ```
 
-<br>
+The application will open in your default browser at `http://localhost:8501`
 
+### Using Aura
 
-## Future Enhancements🚀
+1. **Type your question** in the text area
+2. **Click Send** or press `Ctrl+Enter`
+3. **Watch Aura respond** with sentiment-aware emojis:
+   - 😊 Positive sentiment detected
+   - 😔 Negative sentiment detected
+   - 🙂 Neutral sentiment
 
-1. **Multi-turn Conversation**:
-  Enhance the assistant to remember the context over multiple interactions for deeper conversations.
- 
-3. **Emotionally Intelligent Responses**:
-  Expand sentiment analysis to detect a broader range of emotions (e.g., joy, anger, surprise).
+### Example Conversations
 
-5. **Real-world Integration**:
-  Integrate with external services (e.g., calendars, reminders, news, etc.) to make Aura more functional.
+```
+You: I'm so excited about learning AI! Can you help me?
+Aura: 😊 Absolutely! I'd be delighted to help you learn about AI...
 
-7. **Voice Integration**:
-  Enable Aura to understand and respond via voice, making it more interactive.
+You: I'm having trouble understanding neural networks
+Aura: 😔 I understand it can be challenging. Let me break it down...
 
-<br> 
+You: What is machine learning?
+Aura: 🙂 Machine learning is a subset of artificial intelligence...
+```
 
+---
 
-## Contributing🤝
-Contributions make the open source community such an amazing place to learn, inspire, and create. 🙌 Any contributions you make are greatly appreciated! 😊
+## 🛠️ Technologies Used
 
-Have an idea to improve this project? Go ahead and fork the repo to create a pull request, or open an issue with the tag **"enhancement"**. Don't forget to give the project a star! ⭐ Thanks again! 🙏
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| **Python** | Core programming language | 3.8+ |
+| **Streamlit** | Web framework for UI | Latest |
+| **LangChain** | LLM orchestration and memory | Latest |
+| **LangChain-Groq** | Groq integration for LangChain | Latest |
+| **Groq API** | High-performance LLM inference (Mixtral-8x7B) | API |
+| **VADER Sentiment** | Sentiment analysis engine | Latest |
+| **python-dotenv** | Environment variable management | Latest |
 
-<br>
+### Dependencies
 
-1. **Fork** the repository.
+```
+streamlit
+langchain
+langchain-groq
+python-dotenv
+vaderSentiment
+```
 
-2. **Create** a new branch:
+---
+
+## 📁 Project Structure
+
+```
+Aura-Smart-Assistant/
+│
+├── app.py                 # Main Streamlit application
+├── requirements.txt       # Python dependencies
+├── README.md             # Project documentation
+├── LICENSE               # MIT License
+│
+├── .streamlit/           # Streamlit configuration (not in repo)
+│   └── secrets.toml      # API keys (gitignored)
+│
+└── .env                  # Environment variables (gitignored)
+```
+
+---
+
+## 🧠 How It Works
+
+### 1. User Input Processing
+```python
+user_question = st.text_area("Ask a question:", key="user_input")
+```
+User types a message in the Streamlit text area.
+
+### 2. Sentiment Analysis
+```python
+sentiment = analyze_sentiment(user_question)
+# Returns: {'neg': 0.0, 'neu': 0.5, 'pos': 0.5, 'compound': 0.6}
+```
+VADER analyzes the emotional tone of the input.
+
+### 3. LLM Processing with Memory
+```python
+response_text = llm_chain.run(input=user_question)
+```
+The question is sent to Groq's Mixtral model via LangChain, with conversation history included.
+
+### 4. Response Enhancement
+```python
+if sentiment_label == "positive":
+    response_text = f"😊 {response_text}"
+```
+Response is prefixed with appropriate emoji based on sentiment.
+
+### 5. Memory Update
+```python
+st.session_state.conversation_memory.chat_memory.add_user_message(user_question)
+st.session_state.conversation_memory.chat_memory.add_ai_message(response_text)
+```
+Conversation history is updated for context in future exchanges.
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### ❌ API Key Error
+```
+Error: GROQ_API_KEY not found
+```
+**Solution**: Ensure your API key is correctly set in `.streamlit/secrets.toml` or `.env`
+
+#### ❌ Module Not Found
+```
+ModuleNotFoundError: No module named 'langchain_groq'
+```
+**Solution**:
+```bash
+pip install --upgrade -r requirements.txt
+```
+
+#### ❌ Port Already in Use
+```
+Error: Address already in use
+```
+**Solution**:
+```bash
+streamlit run app.py --server.port 8502
+```
+
+#### ❌ Slow Responses
+**Solution**: Check your internet connection or Groq API status at [status.groq.com](https://status.groq.com)
+
+---
+
+## 🚀 Future Enhancements
+
+- [ ] **Voice Integration** - Add speech-to-text and text-to-speech capabilities
+- [ ] **Multi-Language Support** - Expand to support conversations in multiple languages
+- [ ] **Persistent Memory** - Optional database storage for long-term conversation history
+- [ ] **Custom Personality Modes** - Allow users to select different assistant personalities
+- [ ] **Advanced Analytics** - Dashboard showing conversation statistics and sentiment trends
+- [ ] **Export Conversations** - Download chat history as PDF or text
+- [ ] **Plugin System** - Integration with calendars, weather, news APIs, etc.
+- [ ] **Model Selection** - Allow users to choose between different LLM models
+- [ ] **Conversation Branching** - Explore alternative conversation paths
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community amazing! Any contributions you make are **greatly appreciated**.
+
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create** a feature branch
    ```bash
-   git checkout -b feature/YourFeatureName
+   git checkout -b feature/AmazingFeature
    ```
-
-3. **Commit** your changes with a descriptive message.
-
-4. **Push** to your branch:
+3. **Commit** your changes
    ```bash
-   git push origin feature/YourFeatureName
+   git commit -m 'Add some AmazingFeature'
    ```
+4. **Push** to the branch
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open** a Pull Request
 
-5. **Open** a Pull Request detailing your enhancements or bug fixes.
+### Contribution Guidelines
 
-<br> 
+- Follow PEP 8 style guidelines for Python code
+- Add comments to explain complex logic
+- Update documentation for any new features
+- Test thoroughly before submitting
 
+---
 
-## License📝
+## 📝 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](./LICENSE) file for details.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
 
-<br>
+---
 
+## 👤 Contact
 
-## Contact
+**Harshal Kumawat** - AI/ML Enthusiast & Developer
 
-### 📬 Get in Touch!
-Feel free to reach out for collaborations or questions:
+[![GitHub](https://img.shields.io/badge/GitHub-hk--kumawat-181717?style=for-the-badge&logo=github)](https://github.com/hk-kumawat)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshal%20Kumawat-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/harshal-kumawat/)
+[![Email](https://img.shields.io/badge/Email-harshalkumawat100@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:harshalkumawat100@gmail.com)
 
-- [![GitHub](https://img.shields.io/badge/GitHub-hk--kumawat-blue?logo=github)](https://github.com/hk-kumawat) 💻 — Explore my projects and contributions.
-- [![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshal%20Kumawat-blue?logo=linkedin)](https://www.linkedin.com/in/harshal-kumawat/) 🌐 — Let's connect professionally.
-- [![Email](https://img.shields.io/badge/Email-harshalkumawat100@gmail.com-blue?logo=gmail)](mailto:harshalkumawat100@gmail.com) 📧 — Send me an email for discussions and queries.
+**Project Link**: [https://github.com/hk-kumawat/Aura-Smart-Assistant](https://github.com/hk-kumawat/Aura-Smart-Assistant)
 
-<br>
+---
 
+## 🙏 Acknowledgments
 
-## Thanks for chatting—enjoy your conversation with Aura! 🤖💬
+- [Streamlit](https://streamlit.io/) for the amazing web framework
+- [Groq](https://groq.com/) for blazing-fast LLM inference
+- [LangChain](https://www.langchain.com/) for conversation management
+- [VADER Sentiment](https://github.com/cjhutto/vaderSentiment) for sentiment analysis
+- All contributors and users of Aura!
 
-> "Smart conversations start with a single question." – Anonymous
+---
+
+<div align="center">
+
+### ⭐ Don't forget to star this repo if you find it useful!
+
+**"Smart conversations start with a single question."**
+
+Made with ❤️ by [Harshal Kumawat](https://github.com/hk-kumawat)
 
 <p align="right">
-  (<a href="#readme-top">back to top</a>)
+  <a href="#readme-top">⬆️ Back to top</a>
 </p>
+
+</div>
