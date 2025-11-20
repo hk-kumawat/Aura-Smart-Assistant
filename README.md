@@ -1098,9 +1098,13 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 ---
 
-## 👤 Contact
+## 📬 Contact
 
-**Harshal Kumawat** - AI/ML Enthusiast & Developer
+<div align="center">
+
+### Get in Touch!
+
+Feel free to reach out for collaborations, questions, or feedback:
 
 [![GitHub](https://img.shields.io/badge/GitHub-hk--kumawat-181717?style=for-the-badge&logo=github)](https://github.com/hk-kumawat)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshal%20Kumawat-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/harshal-kumawat/)
@@ -1109,6 +1113,8 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 **Project Link**: [https://github.com/hk-kumawat/Aura-Smart-Assistant](https://github.com/hk-kumawat/Aura-Smart-Assistant)
 
 **Live Demo**: [https://ask-aura.streamlit.app](https://ask-aura.streamlit.app/)
+
+</div>
 
 ---
 
@@ -1138,7 +1144,7 @@ Special thanks to these amazing projects and communities:
 
 ### 🔗 Share it with friends who love AI!
 
-**"Smart conversations start with a single question."**
+*"Smart conversations start with a single question."*
 
 Made with ❤️ and ☕ by [Harshal Kumawat](https://github.com/hk-kumawat)
 
